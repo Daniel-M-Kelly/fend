@@ -1,13 +1,30 @@
-# Landing Page Project
+# Udacity Landing Page Project Dec 2020
 
 ## Table of Contents
 
-* [Instructions](#instructions)
+* [Functionality] (#Functionality)
+* [Changes from Template](#Changes from Template)
 
-## Instructions
+## Functionality
+Sections in the index.html are automatically added to the NavBar with their "data-nav" attribute as the link text and their "id" attribute as the reference.
 
-The starter project has some HTML and CSS styling to display a static version of the Landing Page project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Clicking a Section link in the NavBar will smooth scroll to the section.
 
-To get started, open `js/app.js` and start building out the app's functionality
+Sections with 25% or more visible in the browser window will have their NavBar link highlighted. The sections will also be marked with the the "your-active-class" class that adds the rotating circles.
 
-For specific, detailed instructions, look at the project instructions in the Udacity Classroom.
+## Changes from Template
+
+### Index.html
+Added a 4th section to demonstrate dynamic building of unordered Navigation list.
+
+### app.js
+Created navBar unordered list based on sections in index.html using querySelectorALL.
+
+Used "your-active-class" to style active sections based on intersection observer output
+
+Used window.scroll to smooth scroll to section when clicked on navigation bar, using an event listener and ignoring the default action.
+
+### style.css
+Modified the ".navbar__menu ul" style to use a flexbox to organize the nav items into a row, and justify the content.
+
+Created a ".navbar__menu .active__section" to highlight the nav item related to the section that is currently visible in the browser window.
