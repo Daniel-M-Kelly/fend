@@ -23,21 +23,52 @@ const sectionlist = document.querySelectorAll("section");
 //create a variable equal to the navbar__list section
 const navbarlist = document.getElementById("navbar__list");
 
+const navlinks = document.getElementsByClassName("menu__link");
+
 /**
  * End Global Variables
  * Start Helper Functions
  * 
 */
 
-scrollToSection = () => {
-    navbarlist.addEventListener("click", (evt) => {
-        evt.preventDefault();
-        scrollTo(document.getElementById(evt.target.getAttribute("href")));
-        }, false);
+//Smooth scroll to the top of the specified section. 
+scrollTo = (section) => {
+    window.scroll({
+    behavior: "smooth",
+    top: section.offsetTop
+    });
+}
+
+observer = new IntersectionObserver(entries => {
+    for (entry of entries) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("your-active-class");
+            for (navlink of navlinks) {
+                if (navlink.getAttribute("href") == entry.target.getAttribute("id")){
+                    navlink.classList.add("active__section");
+                };
+            };
+        } else {
+            entry.target.classList.remove("your-active-class");
+            for (navlink of navlinks) {
+                if (navlink.getAttribute("href") == entry.target.getAttribute("id")){
+                    navlink.classList.remove("active__section");
+                };
+            };
+        }
+    };
+},
+{
+    root: document.getElementById("main"),
+    threshold: 0.25
+}
+);
+
+activeSection = () => {
+    for (section of sectionlist) {
+        observer.observe(section);
+    };
 };
-
-
-
 
 /**
  * End Helper Functions
@@ -57,7 +88,7 @@ buildNavList = (navlist, sections, ) => {
         const anchor = document.createElement("a");
 
         //set anchor href to section id
-        anchor.setAttribute('href', section.getAttribute("id"));
+        anchor.setAttribute("href", section.getAttribute("id"));
         //set anchor text to the data-Nav attribute
         anchor.textContent = section.getAttribute("data-Nav");
         
@@ -76,14 +107,17 @@ buildNavList = (navlist, sections, ) => {
 
 
 // Scroll to anchor ID using scrollTO event
+scrollToSection = () => {
+    //Add an event listener for when items in the Navbar are clicked
+    navbarlist.addEventListener("click", (evt) => {
+        
+        //Prevent the default click action
+        evt.preventDefault();
 
-scrollTo = (element) => {
-    window.scroll({
-    behavior: 'smooth',
-    top: element.offsetTop
-    });
-}
-
+        //Get the section element referenced in the navbar link
+        scrollTo(document.getElementById(evt.target.getAttribute("href")));
+        }, false);
+};
 
 
 /**
@@ -93,7 +127,7 @@ scrollTo = (element) => {
 */
 
 //Once the page content is loaded
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
 
 // Build menu 
     buildNavList(navbarlist, sectionlist);
@@ -103,4 +137,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Set sections as active
     activeSection()
+
 });
