@@ -23,6 +23,7 @@ const sectionlist = document.querySelectorAll("section");
 //create a variable equal to the navbar__list section
 const navbarlist = document.getElementById("navbar__list");
 
+//create a variable to get the menu links
 const navlinks = document.getElementsByClassName("menu__link");
 
 /**
@@ -39,7 +40,9 @@ scrollTo = (section) => {
     });
 }
 
+//Create an intersection observer to update the classes of the section and NavLink when an entry is triggered.
 observer = new IntersectionObserver(entries => {
+    //Iterate through entries, if more than the threshold amount of hte entry is in the viewport, set it as the active class. Otherwise remove the active class.
     for (entry of entries) {
         if (entry.isIntersecting) {
             entry.target.classList.add("your-active-class");
@@ -58,17 +61,13 @@ observer = new IntersectionObserver(entries => {
         }
     };
 },
+//Set the observer root to the main element of the document, and require a minimum of 25% of the section to be in the viewport before setting it as active.
 {
     root: document.getElementById("main"),
     threshold: 0.25
 }
 );
 
-activeSection = () => {
-    for (section of sectionlist) {
-        observer.observe(section);
-    };
-};
 
 /**
  * End Helper Functions
@@ -104,7 +103,11 @@ buildNavList = (navlist, sections, ) => {
 
 // Add class 'active' to section when near top of viewport
 
-
+activeSection = () => {
+    for (section of sectionlist) {
+        observer.observe(section);
+    };
+};
 
 // Scroll to anchor ID using scrollTO event
 scrollToSection = () => {
