@@ -28,13 +28,15 @@ const navbarlist = document.getElementById("navbar__list");
  * Start Helper Functions
  * 
 */
-function scrollTo(element) {
-    window.scroll({
-    behavior: 'smooth',
-    left: 0,
-    top: element.offsetTop
-    });
-}
+
+scrollToSection = () => {
+    navbarlist.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        scrollTo(document.getElementById(evt.target.getAttribute("href")));
+        }, false);
+};
+
+
 
 
 /**
@@ -59,8 +61,8 @@ buildNavList = (navlist, sections, ) => {
         //set anchor text to the data-Nav attribute
         anchor.textContent = section.getAttribute("data-Nav");
         
-        //add the menu__link class to the item
-        item.classList.add("menu__link");
+        //add the menu__link class to the anchor
+        anchor.classList.add("menu__link");
 
         //append the anchor to the item, then the item to the parent list
         item.appendChild(anchor);
@@ -75,12 +77,14 @@ buildNavList = (navlist, sections, ) => {
 
 // Scroll to anchor ID using scrollTO event
 
-scrollToSection = () => {
-    navbarlist.addEventListener("click", (evt) => {
-        evt.preventDefault();
-        scrollTo(document.getElementById(evt.target.getAttribute("href")));
-        }, false);
-};
+scrollTo = (element) => {
+    window.scroll({
+    behavior: 'smooth',
+    top: element.offsetTop
+    });
+}
+
+
 
 /**
  * End Main Functions
@@ -98,5 +102,5 @@ document.addEventListener('DOMContentLoaded', function () {
     scrollToSection()   
 
 // Set sections as active
-
+    activeSection()
 });
