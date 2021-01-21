@@ -42,14 +42,19 @@ app.get('/projData', (req, res) => {
     Add user data 
 */
 
-app.post('/addEntry', (req, res) => {
-    newEntry = {
-        temperature: req.body.temperature,
-        date: req.body.date,
-        userResponse: req.body.userResponse
-    };
+app.post('/addEntry', addEntry);
 
-    projectData.push(newEntry);
-    res.send(newEntry);
-    console.log(`New data added: ${newEntry}`);
-});
+function addEntry ( req, res ) {
+    newEntry = {
+        temperature: req.body.temp,
+        date: req.body.date,
+        feelings: req.body.feelings
+        }
+
+    //projectData.push(newEntry);
+    //res.send(newEntry);
+    console.log(`New data added: 
+        Temp: ${newEntry.temp}
+        Date: ${newEntry.date}
+        Feelings: ${newEntry.feelings}`);
+    };

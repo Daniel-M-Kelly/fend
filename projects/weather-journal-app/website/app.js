@@ -1,5 +1,6 @@
 /* Global Variables */
 
+
 // One API base url
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip='
 
@@ -20,19 +21,60 @@ document.getElementById('generate').addEventListener('click', performAction);
 function performAction () {
     const zipCode = document.getElementById('zip').value
     const feelingsEntry = document.getElementById('feelings').value
-    console.log(`Selected Zipcode: ${zipCode}
-        Feelings: ${feelingsEntry}`);
-    postData(baseURL, zipCode, OWMAPIKey);
+    //console.log(`Selected Zipcode: ${zipCode} Feelings: ${feelingsEntry}`);
+    getData(baseURL, zipCode, OWMAPIKey)
+    .then(function(data){
+        //console.log(`Data for posting ${data}`);
+        postData('/addEntry', {temp:data, date:newDate, feelings: feelingsEntry });
+    })
+    .then(
+        updateUI()
+    )
 }
 
-// Async Post
-const postData = async (baseURL, zipCode, apikey) => {
+// Async get data from API
+const getData = async (baseURL, zipCode, apikey) => {
     const res = await fetch(baseURL + zipCode + "&units=imperial&appid=" + apikey );
     try {
         const weatherData = await res.json();
-        console.log(weatherData);
+        const temp = weatherData.main.temp
+        //console.log(`The temperature is ${temp} F`);
+        return(temp)
     } catch (error) {
         console.log('Error: ', error);
     }
 }
 
+/* Post Data */
+
+const postData = async (url = '', data = {} ) => {
+    console.log(`The following will be posted ${data.temp} ${data.date} ${data.feelings}`)
+    const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    
+    try  {
+        const newData = await res.json();
+        console.log('Posted');
+    }catch(error) {
+        console.log("error", error);
+        }
+    }
+
+
+const updateUI = async () => {
+        const request = await fetch('/all');
+        try{
+        const allData = await request.json();
+        document.getElementById('').innerHTML = allData[0].animal;
+        document.getElementById('animalFact').innerHTML = allData[0].facts;
+        document.getElementById('animalFav').innerHTML = allData[0].fav;
+        }catch(error){
+        console.log("error", error);
+        }
+    }
