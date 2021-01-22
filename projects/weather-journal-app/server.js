@@ -7,7 +7,6 @@ const express = require('express');
 // Start up an instance of app
 
 const app = express();
-
 const bodyParser = require('body-parser');
 
 /* Middleware*/
@@ -25,36 +24,28 @@ app.use(express.static('website'));
 
 // Setup Server
 const port = 8080;
-
 listening = () => console.log(`Server running on port:${port}`);
-
 const server = app.listen(port, listening);
 
 /* Get Route 1 
-    Server Side GET route to return projectData
+    Server Side GET route to return data from array
 */
-app.get('/projData', (req, res) => {
-    res.send(projectData);
-});
+app.get('/all', sendData);
 
+function sendData (req, res) {
+    res.send(data);
+};
+
+//Create data array for storing journal entries
+const data = [];
 
 /* Post Route
-    Add user data 
+    Add journal entry to data array
 */
 
-app.post('/addEntry', addEntry);
+app.post('/journalEntry', addEntry);
 
-function addEntry ( req, res ) {
-    newEntry = {
-        temperature: req.body.temp,
-        date: req.body.date,
-        feelings: req.body.feelings
-        }
-
-    //projectData.push(newEntry);
-    //res.send(newEntry);
-    console.log(`New data added: 
-        Temp: ${newEntry.temp}
-        Date: ${newEntry.date}
-        Feelings: ${newEntry.feelings}`);
-    };
+function addEntry (req, res) {
+    data.push(req.body);
+    res.send('POST received');
+};
