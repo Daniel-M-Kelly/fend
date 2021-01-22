@@ -23,9 +23,11 @@ function performAction () {
     getData(baseURL, zipCode, OWMAPIKey)
     .then(function(data){
         postData('/journalEntry', {temp:data, date:newDate, feelings: feelingsEntry });
-        updateUI()
     }
     )
+    .then(function(){
+        updateUI()
+    })
 }
 
 
