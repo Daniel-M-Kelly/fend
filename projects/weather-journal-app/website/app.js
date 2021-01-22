@@ -66,10 +66,10 @@ const postData = async (url = '', data = {} ) => {
 const updateUI = async () => {
         const req = await fetch('/all');
         try{
-            const allData = await req.json();
-            document.getElementById('date').innerText = `Entry Date: ${allData[allData.length - 1].date}`;
-            document.getElementById('temp').innerText = `Temperature: ${allData[allData.length - 1].temp} F`;
-            document.getElementById('content').innerText = `Feelings: ${allData[allData.length - 1].feelings}`;
+            const projectData = await req.json();
+            document.getElementById('date').innerText = `Entry Date: ${projectData.date}`;
+            document.getElementById('temp').innerText = `Temperature: ${projectData.temp} F`;
+            document.getElementById('content').innerText = `Feelings: ${projectData.feelings}`;
         }catch(error) {
             console.log("error", error);
         }

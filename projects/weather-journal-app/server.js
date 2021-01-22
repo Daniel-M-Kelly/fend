@@ -33,11 +33,9 @@ const server = app.listen(port, listening);
 app.get('/all', sendData);
 
 function sendData (req, res) {
-    res.send(data);
+    res.send(projectData);
 };
 
-//Create data array for storing journal entries
-const data = [];
 
 /* Post Route
     Add journal entry to data array
@@ -46,6 +44,8 @@ const data = [];
 app.post('/journalEntry', addEntry);
 
 function addEntry (req, res) {
-    data.push(req.body);
+    projectData.date = req.body.date;
+    projectData.temp = req.body.temp;
+    projectData.feelings = req.body.feelings;
     res.send('POST received');
 };
