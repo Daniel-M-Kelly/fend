@@ -4,6 +4,11 @@ const mockAPIResponse = require('./mockAPI.js')
 
 const app = express()
 
+//MeaningCloud API Key
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 app.use(express.static('dist'))
 
 console.log(__dirname)
@@ -16,6 +21,7 @@ app.get('/', function (req, res) {
 // designates what port the app will listen to for incoming requests
 app.listen(8080, function () {
     console.log('Example app listening on port 8080!')
+    console.log(`Your API key is ${process.env.API_KEY}`);
 })
 
 app.get('/test', function (req, res) {
