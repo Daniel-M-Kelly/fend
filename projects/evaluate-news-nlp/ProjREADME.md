@@ -8,3 +8,7 @@
 
 * Development configuration - webpack.dev.js
 * Production configuration - webpack.prod.js
+* Production build - `npm run build-prod` generates dist folder for production app
+* Dev mode - `npm run build-dev` uses webpack dev server and dev config
+
+##
