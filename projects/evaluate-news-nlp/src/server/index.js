@@ -1,8 +1,10 @@
 var path = require('path')
 const express = require('express')
+const cors = require('cors');
 const mockAPIResponse = require('./mockAPI.js')
 
 const app = express()
+app.use(cors());
 
 //MeaningCloud API Key
 
