@@ -29,3 +29,60 @@ app.listen(8080, function () {
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
+
+// API Call
+const baseURL = 'api.meaningcloud.com/summarization-1.0?key='
+const apikey = process.env.API_KEY
+const textUrl = 
+
+
+// Async get data from API
+const getData = async (baseURL, zipCode, apikey) => {
+    const res = await fetch(baseURL + apikey + '&url'  );
+    try {
+        const weatherData = await res.json();
+        const temp = weatherData.main.temp;
+        return(temp)
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+}
+
+/*
+const https = require('follow-redirects').https;
+const fs = require('fs');
+
+const options = {
+    'method': 'POST',
+    'hostname': 'api.meaningcloud.com',
+    'path': '/summarization-1.0?key=<your_key>&txt=<text>&sentences=<number_sentences>',
+    'headers': {
+    },
+    'maxRedirects': 20
+    };
+
+app.get('/nlp', function (req, res) {
+
+}
+
+    const req = https.request(options, function (res) {
+        var chunks = [];
+
+        res.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+
+        res.on("end", function (chunk) {
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+        });
+
+        res.on("error", function (error) {
+            console.error(error);
+        });
+    });
+
+    req.end();
+
+)
+*/
