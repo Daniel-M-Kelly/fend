@@ -1,10 +1,14 @@
 var path = require('path')
 const express = require('express')
 const cors = require('cors');
-const mockAPIResponse = require('./mockAPI.js')
+const fetch = require('node-fetch')
+const bodyParser = require('body-parser')
 
 const app = express()
+
 app.use(cors());
+
+app.use(bodyParser.json())
 
 //MeaningCloud API Key
 
@@ -26,63 +30,28 @@ app.listen(8080, function () {
     console.log(`Your API key is ${process.env.API_KEY}`);
 })
 
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
+app.post('/summary', function (req, res) {
+    data = req.body.url;
+    console.log(data)
+    
+    res.send(retrieveData(data))
 })
 
 // API Call
-const baseURL = 'api.meaningcloud.com/summarization-1.0?key='
-const apikey = process.env.API_KEY
-const textUrl = 
+const baseURL = 'https://api.meaningcloud.com/summarization-1.0?key='
+const apiKey = process.env.API_KEY
+//const textURL = 'https://www.cbc.ca/news/canada/british-columbia/dog-rescued-from-shaft-under-back-porch-in-white-rock-b-c-1.5922507'
 
 
 // Async get data from API
-const getData = async (baseURL, zipCode, apikey) => {
-    const res = await fetch(baseURL + apikey + '&url'  );
+const retrieveData = async (textURL = '') => {
+    console.log(`Retrieving summary for article at url ${textURL}`)
+    const res = await fetch(`${baseURL}${apiKey}&url=${textURL}&sentences=5`  );
     try {
-        const weatherData = await res.json();
-        const temp = weatherData.main.temp;
-        return(temp)
+        const summaryData = await res.json();
+        console.log(summaryData)
+        return(summaryData)
     } catch (error) {
         console.log('Error: ', error);
     }
 }
-
-/*
-const https = require('follow-redirects').https;
-const fs = require('fs');
-
-const options = {
-    'method': 'POST',
-    'hostname': 'api.meaningcloud.com',
-    'path': '/summarization-1.0?key=<your_key>&txt=<text>&sentences=<number_sentences>',
-    'headers': {
-    },
-    'maxRedirects': 20
-    };
-
-app.get('/nlp', function (req, res) {
-
-}
-
-    const req = https.request(options, function (res) {
-        var chunks = [];
-
-        res.on("data", function (chunk) {
-            chunks.push(chunk);
-        });
-
-        res.on("end", function (chunk) {
-            var body = Buffer.concat(chunks);
-            console.log(body.toString());
-        });
-
-        res.on("error", function (error) {
-            console.error(error);
-        });
-    });
-
-    req.end();
-
-)
-*/
