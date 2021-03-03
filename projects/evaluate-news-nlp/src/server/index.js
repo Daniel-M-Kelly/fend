@@ -30,28 +30,23 @@ app.listen(8080, function () {
     console.log(`Your API key is ${process.env.API_KEY}`);
 })
 
-app.post('/summary', function (req, res) {
-    data = req.body.url;
-    console.log(data)
-    
-    res.send(retrieveData(data))
-})
 
 // API Call
 const baseURL = 'https://api.meaningcloud.com/summarization-1.0?key='
 const apiKey = process.env.API_KEY
-//const textURL = 'https://www.cbc.ca/news/canada/british-columbia/dog-rescued-from-shaft-under-back-porch-in-white-rock-b-c-1.5922507'
 
 
-// Async get data from API
-const retrieveData = async (textURL = '') => {
-    console.log(`Retrieving summary for article at url ${textURL}`)
-    const res = await fetch(`${baseURL}${apiKey}&url=${textURL}&sentences=5`  );
+app.post('/summary', async function (req, res) {
+    textURL = req.body.url;
+    console.log(`URL of article to summarize: ${textURL}`)
+
+    const api_res = await fetch(`${baseURL}${apiKey}&url=${textURL}&sentences=5`  );
     try {
-        const summaryData = await res.json();
-        console.log(summaryData)
-        return(summaryData)
+        const summaryData = await api_res.json();
+        res.send(summaryData)
+        console.log('Article Summary Sent')
     } catch (error) {
         console.log('Error: ', error);
     }
-}
+
+})

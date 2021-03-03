@@ -17,6 +17,7 @@ const getSummary = async (data = {}) => {
         try {
             console.log(data)
             const summary = await res.json();
+            console.log('Summary Received', summary)
             return summary;
         } catch (error) {
             console.log('error', error);
@@ -26,7 +27,9 @@ const getSummary = async (data = {}) => {
     if (Client.validURL(formText)) {
         console.log("::: Form Submitted :::");
         console.log(formText)
+
         getSummary({url: formText})
+
         .then(
             function (res) {
                 document.getElementById('results').innerText = `Article Summary: ${res.summary}`;
