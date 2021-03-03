@@ -12,7 +12,9 @@
 * Development configuration - webpack.dev.js
 * Production configuration - webpack.prod.js
 * Production build - `npm run build-prod` generates dist folder for production app
-* Dev mode - `npm run build-dev` uses webpack dev server and dev config
+* Production server - `npm run start` runs production node server
+* Dev Build - `npm run build-dev` uses webpack dev server and dev config
+* Dev Server - `npm run start-dev` uses nodemon to automatically restart node server when files are changed.
 
 ## Content
 * HTML File in src/client/views
@@ -22,3 +24,7 @@
 # Functionality
 
 ## API
+
+*Used Meaning Cloud Summarization API: https://www.meaningcloud.com/developer/summarization
+*Note: Only non-authenticated HTTP and FTP url's are supported.
+*Ex. URL: http://www.theregister.com/2021/03/03/nvidia_on_arm_licensing_model/
