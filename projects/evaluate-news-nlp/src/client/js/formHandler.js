@@ -15,9 +15,7 @@ const getSummary = async (data = {}) => {
             body: JSON.stringify(data)
         });
         try {
-            console.log(data)
             const summary = await res.json();
-            console.log('Summary Received', summary)
             return summary;
         } catch (error) {
             console.log('error', error);
@@ -25,8 +23,6 @@ const getSummary = async (data = {}) => {
     };
     
     if (Client.validURL(formText)) {
-        console.log("::: Form Submitted :::");
-        console.log(formText)
 
         getSummary({url: formText})
 
@@ -41,5 +37,4 @@ const getSummary = async (data = {}) => {
 };
 
 
-    
 export { handleSubmit }

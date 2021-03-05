@@ -16,9 +16,11 @@ app.use(express.static('dist'))
 
 //MeaningCloud API Key
 dotenv.config();
+const apiKey = process.env.API_KEY
+
 // API Call
 const baseURL = 'https://api.meaningcloud.com/summarization-1.0?key='
-const apiKey = process.env.API_KEY
+
 
 
 app.get('/', function (req, res) {
@@ -34,14 +36,14 @@ app.listen(8080, function () {
 // Post route to get summary information from API
 app.post('/summary', async function (req, res) {
     articleURL = req.body.url;
-    console.log(`URL of article to summarize: ${articleURL}`)
+    //console.log(`URL of article to summarize: ${articleURL}`)
 
     const api_res = await fetch(`${baseURL}${apiKey}&url=${articleURL}&sentences=5`);
     
     try {
         const summaryData = await api_res.json();
         res.send(summaryData)
-        console.log(`Article Summary Sent! ${summaryData}`)
+        //console.log(`Article Summary Sent! ${summaryData}`)
     } catch (error) {
         console.log('Error: ', error);
     }

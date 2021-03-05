@@ -15,6 +15,7 @@
 * Production server - `npm run start` runs production node server
 * Dev Build - `npm run build-dev` uses webpack dev server and dev config
 * Dev Server - `npm run start-dev` uses nodemon to automatically restart node server when files are changed.
+* Note: Dev Webserver runs on port 8081
 
 ## Content
 * HTML File in src/client/views
