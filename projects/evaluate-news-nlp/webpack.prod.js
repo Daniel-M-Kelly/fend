@@ -22,12 +22,16 @@ module.exports = {
             }
         ]
     },
+    stats: {
+        entrypoints: false,
+        children: false
+        },
     plugins: [
         new HtmlWebPackPlugin({
             template: "./src/client/views/index.html",
             filename: "./index.html",
         }),
-        new WorkboxPlugin.GenerateSW(),
+        new WorkboxPlugin.GenerateSW()
     ],
     output: {
         libraryTarget: 'var',
