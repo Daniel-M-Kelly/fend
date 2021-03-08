@@ -1,3 +1,4 @@
+// Check for valid URL string
 function validURL(url) {
     const pattern = new RegExp(
         '^(https?:\\/\\/)?'+ 
@@ -8,4 +9,6 @@ function validURL(url) {
     ); 
     return !!pattern.test(url);
 }
+
+// Export function for index.js
 export{ validURL }
