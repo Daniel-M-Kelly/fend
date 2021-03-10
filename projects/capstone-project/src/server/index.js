@@ -14,9 +14,11 @@ app.use(bodyParser.json())
 
 app.use(express.static('dist'))
 
-//MeaningCloud API Key
+//Pull API Keys from .env
 dotenv.config();
-const apiKey = process.env.API_KEY
+const weatherBit_API_Key = process.env.weatherBit_API_Key
+const pixabay_API_Key = process.env.pixabay_API_Key
+const geonames_username = process.env.geonames_username
 
 // API Call
 const baseURL = 'https://api.meaningcloud.com/summarization-1.0?key='
@@ -30,7 +32,6 @@ app.get('/', function (req, res) {
 // designates what port the app will listen to for incoming requests
 app.listen(8080, function () {
     console.log('Example app listening on port 8080!')
-    console.log(`Your API key is ${process.env.API_KEY}`);
 })
 
 // Post route to get summary information from API
