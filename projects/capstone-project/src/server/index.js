@@ -2,7 +2,7 @@ var path = require('path')
 const express = require('express')
 const cors = require('cors');
 const fetch = require('node-fetch')
-const bodyParser = require('body-parser')
+//const bodyParser = require('body-parser')
 const dotenv = require('dotenv');
 
 const app = express()
@@ -23,8 +23,6 @@ const geonames_username = process.env.geonames_username
 // API Call
 const geonamesURL = 'http://api.geonames.org/searchJSON?q='
 
-
-
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('dist/index.html'))
 })
@@ -33,6 +31,31 @@ app.get('/', function (req, res) {
 app.listen(8080, function () {
     console.log('Example app listening on port 8080!')
 })
+
+// Setup empty JS object to act as endpoint for all routes
+projectData = {};
+
+/* Get Route 1 
+    Server Side GET route to return data from array
+*/
+app.get('/all', sendData);
+
+function sendData (req, res) {
+    res.send(projectData);
+};
+
+/* Post Route
+    Add journal entry to data array
+*/
+
+app.post('/journalEntry', addEntry);
+
+function addEntry (req, res) {
+    projectData.date = req.body.date;
+    projectData.temp = req.body.temp;
+    projectData.feelings = req.body.feelings;
+    res.send('POST received');
+};
 
 // Post route to get summary information from API
 app.post('/locationSearch', async function (req, res) {
@@ -44,6 +67,10 @@ app.post('/locationSearch', async function (req, res) {
 
     try {
         const apiData = await api_res.json();
+        projectData.location = apiData["geonames"][0].name
+        projectData.country = apiData["geonames"][0].countryName
+        projectData.latitude = apiData["geonames"][0].lat
+        projectData.longitude = apiData["geonames"][0].lng 
         res.send(apiData)
         console.log(`Geonames api Data Sent! ${apiData}`)
     } catch (error) {

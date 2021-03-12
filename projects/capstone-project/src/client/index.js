@@ -1,5 +1,5 @@
 import { handleSubmit } from './js/formHandler'
-import { validURL } from './js/validURL'
+import { dateCountdown } from './js/dateCountdown'
 
 import './styles/resets.scss'
 import './styles/base.scss'
@@ -10,5 +10,5 @@ import './styles/header.scss'
 
 export {
     handleSubmit,
-    validURL
+    dateCountdown,
 };

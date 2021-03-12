@@ -10,7 +10,7 @@
         <link href="/styles/footer.css">
     </head>
 
-    <body>
+    <body onload="Client.dateCountdown()">
 
         <header>
             <div class="">
@@ -24,14 +24,16 @@
         <main>
             <section>
                 <form class="" onsubmit="return Client.handleSubmit(event)">
-                    <input id="locationName" type="text" name="input" value="" placeholder="Enter the Name of the locationName">
-                    <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">
+                    <input id="locationName" type="text" name="locationName" value="" placeholder="Destination">
+                    <input id="departDate" type="date" name="departDate" value="" placeholder="Departure Date">
+                    <input type="submit" name="" value="Save Trip" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">
                 </form>
             </section>
 
             <section>
                 <strong>Form Results:</strong>
                 <div id="results"></div>
+                <div id="countdown"></div>
             </section>
         </main>
 
