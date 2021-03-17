@@ -1,9 +1,10 @@
-var path = require('path')
+const path = require('path')
 const express = require('express')
 const cors = require('cors');
 const fetch = require('node-fetch')
 //const bodyParser = require('body-parser')
 const dotenv = require('dotenv');
+const { Console } = require('console');
 
 const app = express()
 
@@ -41,6 +42,7 @@ projectData = {};
 app.get('/all', sendData);
 
 function sendData (req, res) {
+    console.log(`initial data ${projectData.location}`)
     res.send(projectData);
 };
 
@@ -48,13 +50,35 @@ function sendData (req, res) {
     Add journal entry to data array
 */
 
-app.post('/journalEntry', addEntry);
+app.post('/addTrip', addTrip);
 
-function addEntry (req, res) {
-    projectData.date = req.body.date;
-    projectData.temp = req.body.temp;
-    projectData.feelings = req.body.feelings;
-    res.send('POST received');
+async function addTrip (req, res) {
+    const locData = await locationSearch(req.body.location)
+    console.log(`Saving Trip to ${locData["geonames"][0].name}`)
+
+    try {
+        projectData.location = locData["geonames"][0].name
+        projectData.country = locData["geonames"][0].countryName
+        projectData.latitude = locData["geonames"][0].lat
+        projectData.longitude = locData["geonames"][0].lng
+        console.log('Trip Saved');
+        console.log(projectData)
+        res.send(projectData)
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+};
+
+async function locationSearch (searchLoc) {
+    console.log(`Location to Search for: ${searchLoc}`)
+    const api_res = await fetch(`${geonamesURL}${searchLoc}&maxRows=1&username=${geonames_username}`);
+    try {
+        const apiData = await api_res.json();
+        console.log(`Geonames api Data Sent!`)
+        return apiData
+    } catch (error) {
+        console.log('Error: ', error);
+    }
 };
 
 // Post route to get summary information from API
@@ -72,7 +96,7 @@ app.post('/locationSearch', async function (req, res) {
         projectData.latitude = apiData["geonames"][0].lat
         projectData.longitude = apiData["geonames"][0].lng 
         res.send(apiData)
-        console.log(`Geonames api Data Sent! ${apiData}`)
+        console.log(`Geonames api Data Sent!`)
     } catch (error) {
         console.log('Error: ', error);
     }

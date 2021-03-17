@@ -1,4 +1,5 @@
 import { handleSubmit } from './js/formHandler'
+import { initialData } from './js/formHandler'
 import { dateCountdown } from './js/dateCountdown'
 
 import './styles/resets.scss'
@@ -11,4 +12,5 @@ import './styles/header.scss'
 export {
     handleSubmit,
     dateCountdown,
+    initialData,
 };
