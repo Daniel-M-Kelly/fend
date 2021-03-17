@@ -54,13 +54,15 @@ app.post('/addTrip', addTrip);
 
 async function addTrip (req, res) {
     const locData = await locationSearch(req.body.location)
-    console.log(`Saving Trip to ${locData["geonames"][0].name}`)
+    const departDate = req.body.departDate
+    console.log(`Saving Trip departing on ${departDate} to ${locData["geonames"][0].name}`)
 
     try {
         projectData.location = locData["geonames"][0].name
         projectData.country = locData["geonames"][0].countryName
         projectData.latitude = locData["geonames"][0].lat
         projectData.longitude = locData["geonames"][0].lng
+        projectData.departDate = departDate
         console.log('Trip Saved');
         console.log(projectData)
         res.send(projectData)

@@ -1,8 +1,9 @@
 function handleSubmit(event) {
     event.preventDefault()
 
-    // Get the URL from the form field
+    // Get the trip data from the form field
     let locationName = document.getElementById('locationName').value
+    let departDate = document.getElementById('departDate').value
 
     // Build the post request function
     const getLocation = async (data = {}) => {
@@ -23,7 +24,7 @@ function handleSubmit(event) {
             }
         };
 
-    getLocation({location: locationName})
+    getLocation({location: locationName, departDate: departDate})
         // When API response is received, update the results section of the page with the summary
         .then(
             function (res) {
@@ -32,6 +33,7 @@ function handleSubmit(event) {
                     Country: ${res.country}
                     Latitude: ${res.latitude}
                     Longitude: ${res.longitude}`;
+                    Client.dateCountdown(res.departDate)
             }
         )
 };
@@ -65,6 +67,7 @@ function initialData () {
                     Country: ${res.country}
                     Latitude: ${res.latitude}
                     Longitude: ${res.longitude}`;
+                    Client.dateCountdown(res.departDate)
             }
         );
 }
