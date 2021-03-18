@@ -29,11 +29,14 @@ function handleSubmit(event) {
         .then(
             function (res) {
                 document.getElementById('results').innerText = `
-                    Location Information: ${res.location}
+                    Trip to: ${res.location}
                     Country: ${res.country}
                     Latitude: ${res.latitude}
-                    Longitude: ${res.longitude}`;
-                    Client.dateCountdown(res.departDate)
+                    Longitude: ${res.longitude}
+                    Departure Date: ${res.departDate}
+                    Days until Departure: ${res.dateDiff}
+                    The weather will be: ${res.weather}`
+                    ;
             }
         )
 };
@@ -66,11 +69,14 @@ function initialData () {
                     Location Information: ${res.location}
                     Country: ${res.country}
                     Latitude: ${res.latitude}
-                    Longitude: ${res.longitude}`;
-                    Client.dateCountdown(res.departDate)
+                    Longitude: ${res.longitude}
+                    Departure Date: ${res.departDate}
+                    Days until Departure: ${res.dateDiff}`;
+                    
             }
         );
 }
+
 
 //Export function to include in index.js
 export { handleSubmit }
