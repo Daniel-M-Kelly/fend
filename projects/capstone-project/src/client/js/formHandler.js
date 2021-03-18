@@ -31,12 +31,12 @@ function handleSubmit(event) {
                 document.getElementById('results').innerText = `
                     Trip to: ${res.location}
                     Country: ${res.country}
-                    Latitude: ${res.latitude}
-                    Longitude: ${res.longitude}
                     Departure Date: ${res.departDate}
                     Days until Departure: ${res.dateDiff}
+                    Temperature: ${res.temp}
                     The weather will be: ${res.weather}`
                     ;
+                document.getElementById('locPic').src = res.imgURL
             }
         )
 };
@@ -66,12 +66,12 @@ function initialData () {
         .then(
             function (res) {
                 document.getElementById('results').innerText = `
-                    Location Information: ${res.location}
-                    Country: ${res.country}
-                    Latitude: ${res.latitude}
-                    Longitude: ${res.longitude}
-                    Departure Date: ${res.departDate}
-                    Days until Departure: ${res.dateDiff}`;
+                Trip to: ${res.location}
+                Country: ${res.country}
+                Departure Date: ${res.departDate}
+                Days until Departure: ${res.dateDiff}
+                Temperature: ${res.temp}
+                The weather will be: ${res.weather}`;
                     
             }
         );
