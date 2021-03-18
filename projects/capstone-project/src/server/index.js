@@ -7,8 +7,6 @@ const dotenv = require('dotenv');
 const { Console } = require('console');
 
 const app = express()
-
-
 app.use(cors());
 
 app.use(express.json());
