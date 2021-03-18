@@ -36,6 +36,7 @@ function handleSubmit(event) {
                     Temperature: ${res.temp}
                     The weather will be: ${res.weather}`
                     ;
+                document.getElementById('weatherIcon').src = `/icons/${res.weatherIcon}.png`
                 document.getElementById('locPic').src = res.imgURL
             }
         )
@@ -72,6 +73,7 @@ function initialData () {
                 Days until Departure: ${res.dateDiff}
                 Temperature: ${res.temp}
                 The weather will be: ${res.weather}`;
+                document.getElementById('weatherIcon').src = `${res.weatherIcon}.png`
                 document.getElementById('locPic').src = res.imgURL
                     
             }
