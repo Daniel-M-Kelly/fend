@@ -2,11 +2,10 @@ const path = require('path')
 const express = require('express')
 const cors = require('cors');
 const fetch = require('node-fetch')
-//const bodyParser = require('body-parser')
 const dotenv = require('dotenv');
 const { Console } = require('console');
-
 const app = express()
+
 app.use(cors());
 
 app.use(express.json());
@@ -19,7 +18,7 @@ const weatherBit_API_Key = process.env.weatherBit_API_Key
 const pixabay_API_Key = process.env.pixabay_API_Key
 const geonames_username = process.env.geonames_username
 
-// API Call
+// API URLs
 const geonamesURL = 'http://api.geonames.org/searchJSON?q='
 const weatherForecastURL = 'http://api.weatherbit.io/v2.0/forecast/daily?&lat='
 const weatherCurrentURL = 'http://api.weatherbit.io/v2.0/current?&lat='
@@ -43,11 +42,13 @@ projectData = {};
 app.get('/all', sendData);
 
 function sendData (req, res) {
-    console.log(`initial data ${projectData.location}`)
-    let now = new Date();
+    //console.log(`initial data ${projectData.location}`)
+    //Re-calculate DateDifference
+    dateCalc (projectData.departDate);
+    /*let now = new Date();
     let departDate = new Date(projectData.departDate);
     let dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24) + 1 );
-    projectData.dateDiff = dateDiff
+    projectData.dateDiff = dateDiff */
     res.send(projectData);
 };
 
@@ -57,33 +58,37 @@ function sendData (req, res) {
 
 app.post('/addTrip', addTrip);
 
+//Function to lookup data from APIs and save to projectData array
 async function addTrip (req, res) {
-    const locData = await locationSearch(req.body.location)
-    const departDate = req.body.departDate
-    console.log(`Saving Trip departing on ${departDate} to ${locData["geonames"][0].name}`)
 
-    try {
-        projectData.location = locData["geonames"][0].name
-        projectData.country = locData["geonames"][0].countryName
-        projectData.latitude = locData["geonames"][0].lat
-        projectData.longitude = locData["geonames"][0].lng
-        projectData.departDate = departDate
-        const weatherData = await weatherLookup(locData["geonames"][0].lat, locData["geonames"][0].lng, departDate )
-        const locPic = await pictureLookup(locData["geonames"][0].name)
-        console.log('Trip Saved');
-        console.log(projectData)
-        res.send(projectData)
-    } catch (error) {
-        console.log('Error: ', error);
-    }
+    //Calculate how many days from now until departure
+    dateCalc(req.body.departDate)
+
+    //Run locationSearch Function to get location Name, Latitude, and Logitude for use in subsequent APIs
+    const locData = await locationSearch(req.body.location)
+
+    //Lookup weather information for the location
+    await weatherLookup(locData["geonames"][0].lat, locData["geonames"][0].lng, projectData.dateDiff );
+    
+    //Find a picture of the location
+    await pictureLookup(locData["geonames"][0].name);
+
+    //Send the complete projectData back to the client
+    res.send(projectData);
+
 };
 
+//Function to get location information from geonames
 async function locationSearch (searchLoc) {
     console.log(`Location to Search for: ${searchLoc}`)
     const api_res = await fetch(`${geonamesURL}${searchLoc}&maxRows=1&username=${geonames_username}`);
     try {
         const apiData = await api_res.json();
-        console.log(`Geonames api Data Sent!`)
+        projectData.location = apiData["geonames"][0].name
+        projectData.country = apiData["geonames"][0].countryName
+        projectData.latitude = apiData["geonames"][0].lat
+        projectData.longitude = apiData["geonames"][0].lng
+        //console.log(`Geonames api Data Sent!`)
         return apiData
     } catch (error) {
         console.log('Error: ', error);
@@ -91,35 +96,36 @@ async function locationSearch (searchLoc) {
 };
 
 async function pictureLookup (searchLoc) {
-    console.log(`Finding picture for: ${searchLoc}`)
+    //console.log(`Finding picture for: ${searchLoc}`)
     encodedLoc = encodeURI(searchLoc)
-    console.log(encodedLoc)
-    console.log(`${pixabayURL}${pixabay_API_Key}&q=${encodedLoc}&image_type=photo&safesearch=true`)
+    //console.log(encodedLoc)
+    //console.log(`${pixabayURL}${pixabay_API_Key}&q=${encodedLoc}&image_type=photo&safesearch=true`)
     let api_res = await fetch(`${pixabayURL}${pixabay_API_Key}&q=${encodedLoc}&image_type=photo&safesearch=true`);
         try {
             const apiData = await api_res.json();
-            console.log(`${apiData['hits'][0].webformatURL}`)
+            //console.log(`${apiData['hits'][0].webformatURL}`)
             projectData.imgURL = apiData['hits'][0].webformatURL
         } catch (error) {
             console.log('Error: ', error);
         }
 };
 
-async function weatherLookup (lat,lng,depart) {
-    console.log(`Looking up weather for: ${depart}`)
-    let now = new Date();
+//Look up weather from weatherbits.io API using latitude and longitude
+async function weatherLookup (lat,lng,dateDiff) {
+    //console.log(`Looking up weather for: ${depart}`)
+    /* let now = new Date();
     let departDate = new Date(depart);
     let dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24)) + 1 ;
-    projectData.dateDiff = dateDiff
-    console.log(`Date Diff = ${dateDiff}`)
+    projectData.dateDiff = dateDiff */
+    //console.log(`Date Diff = ${dateDiff}`)
 
     if (dateDiff < 16) { 
-        console.log('Get Forecasted Weather')
-        console.log(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`)
+        //console.log('Get Forecasted Weather')
+        //console.log(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`)
         let api_res = await fetch(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
             const apiData = await api_res.json();
-            console.log(`WeatherBit api Data Sent!`)
+            //console.log(`WeatherBit api Data Sent!`)
             //console.log(`Forecast for ${apiData['data'][dateDiff].valid_date}`)
             projectData.temp = apiData["data"][dateDiff].temp 
             projectData.weather = apiData["data"][dateDiff]['weather'].description
@@ -129,12 +135,12 @@ async function weatherLookup (lat,lng,depart) {
         }
 
     } else {
-        console.log('Get Current Weather')
+        //console.log('Get Current Weather')
         //console.log(`${weatherCurrentURL}${lat}&lon=${lng}&start_date=${depart}&end_date=${depart}&key=${weatherBit_API_Key}`)
         let api_res = await fetch(`${weatherCurrentURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
             const apiData = await api_res.json();
-            console.log(`WeatherBit api Data Sent!`)
+            //console.log(`WeatherBit api Data Sent!`)
             projectData.temp = apiData["data"][0].temp
             projectData.weather = apiData["data"][0]['weather'].description
             projectData.weatherIcon = apiData["data"][0]['weather'].icon
@@ -142,8 +148,16 @@ async function weatherLookup (lat,lng,depart) {
             console.log('Error: ', error);
         }
     }
+};
 
+//Function to calculate # of days from current date, until departure.
+async function dateCalc (depart) {
 
+    let now = new Date();
+    let departDate = new Date(depart);
+    let dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24)) + 1 ;
 
+    projectData.departDate = depart
+    projectData.dateDiff = dateDiff
 };
 
