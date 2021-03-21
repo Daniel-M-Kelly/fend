@@ -84,19 +84,20 @@ async function locationSearch (searchLoc) {
     const api_res = await fetch(`${geonamesURL}${searchLoc}&maxRows=1&username=${geonames_username}`);
     try {
         const apiData = await api_res.json();
+        //Add Location name, country, latitude, and longitude to project data array
+        //Latitude and Longitued used to find weather forecast
         projectData.location = apiData["geonames"][0].name
         projectData.country = apiData["geonames"][0].countryName
         projectData.latitude = apiData["geonames"][0].lat
         projectData.longitude = apiData["geonames"][0].lng
-        //console.log(`Geonames api Data Sent!`)
         return apiData
     } catch (error) {
         console.log('Error: ', error);
     }
 };
 
+
 async function pictureLookup (searchLoc) {
-    //console.log(`Finding picture for: ${searchLoc}`)
     encodedLoc = encodeURI(searchLoc)
     //console.log(encodedLoc)
     //console.log(`${pixabayURL}${pixabay_API_Key}&q=${encodedLoc}&image_type=photo&safesearch=true`)
@@ -112,21 +113,13 @@ async function pictureLookup (searchLoc) {
 
 //Look up weather from weatherbits.io API using latitude and longitude
 async function weatherLookup (lat,lng,dateDiff) {
-    //console.log(`Looking up weather for: ${depart}`)
-    /* let now = new Date();
-    let departDate = new Date(depart);
-    let dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24)) + 1 ;
-    projectData.dateDiff = dateDiff */
-    //console.log(`Date Diff = ${dateDiff}`)
 
+    //If the depart date is within 16 days, get the weather forecast for that day
     if (dateDiff < 16) { 
-        //console.log('Get Forecasted Weather')
-        //console.log(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`)
+
         let api_res = await fetch(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
             const apiData = await api_res.json();
-            //console.log(`WeatherBit api Data Sent!`)
-            //console.log(`Forecast for ${apiData['data'][dateDiff].valid_date}`)
             projectData.temp = apiData["data"][dateDiff].temp 
             projectData.weather = apiData["data"][dateDiff]['weather'].description
             projectData.weatherIcon = apiData["data"][dateDiff]['weather'].icon
@@ -135,12 +128,10 @@ async function weatherLookup (lat,lng,dateDiff) {
         }
 
     } else {
-        //console.log('Get Current Weather')
-        //console.log(`${weatherCurrentURL}${lat}&lon=${lng}&start_date=${depart}&end_date=${depart}&key=${weatherBit_API_Key}`)
+        //If the departure date is more than 16 days away, get the current weather.
         let api_res = await fetch(`${weatherCurrentURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
             const apiData = await api_res.json();
-            //console.log(`WeatherBit api Data Sent!`)
             projectData.temp = apiData["data"][0].temp
             projectData.weather = apiData["data"][0]['weather'].description
             projectData.weatherIcon = apiData["data"][0]['weather'].icon
@@ -151,13 +142,11 @@ async function weatherLookup (lat,lng,dateDiff) {
 };
 
 //Function to calculate # of days from current date, until departure.
-async function dateCalc (depart) {
-
-    let now = new Date();
-    let departDate = new Date(depart);
-    let dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24)) + 1 ;
-
-    projectData.departDate = depart
-    projectData.dateDiff = dateDiff
+const dateCalc = depart => {
+    const now = new Date();
+    const departDate = new Date(depart);
+    const dateDiff = Math.floor((departDate - now) / (1000 * 60 * 60 * 24)) + 1 ;
+    projectData.departDate = depart;
+    projectData.dateDiff = dateDiff;
 };
 
