@@ -123,7 +123,7 @@ const weatherLookup = async (lat, lng, dateDiff) => {
 
     } else {
         //If the departure date is more than 16 days away, get the current weather.
-        const api_res = await fetch(`${weatherCurrentURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
+        let api_res = await fetch(`${weatherCurrentURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
             const apiData = await api_res.json();
             projectData.temp = apiData["data"][0].temp;
