@@ -109,7 +109,7 @@ const pictureLookup = async searchLoc => {
 const weatherLookup = async (lat, lng, dateDiff) => {
 
     //If the depart date is within 16 days, get the weather forecast for that day
-    if (dateDiff < 16) { 
+    if (dateDiff < 16 && dateDiff >= 0) { 
 
         let api_res = await fetch(`${weatherForecastURL}${lat}&lon=${lng}&key=${weatherBit_API_Key}`);
         try {
