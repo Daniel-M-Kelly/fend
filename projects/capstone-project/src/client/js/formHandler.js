@@ -39,6 +39,8 @@ const initialData = () => {
 
 //update the page UI
 const updateUI = res => {
+
+    if(res.location) {
     console.log(`updating UI with data for ${res.location}`);
     document.getElementById('results').innerText = `
     Trip to: ${res.location}
@@ -49,6 +51,7 @@ const updateUI = res => {
     The weather will be: ${res.weather}`;
     document.getElementById('weatherIcon').src = `/icons/${res.weatherIcon}.png`;
     document.getElementById('locPic').src = res.imgURL;
+    } else {document.getElementById('results').innerText = 'No Saved Trip'}
 };
 
     // Build the post request function
