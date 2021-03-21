@@ -1,37 +1,37 @@
-const path = require('path')
-const express = require('express')
+const path = require('path');
+const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 const dotenv = require('dotenv');
 const { Console } = require('console');
-const app = express()
+const app = express();
 
 app.use(cors());
 
 app.use(express.json());
 
-app.use(express.static('dist'))
+app.use(express.static('dist'));
 
 //Pull API Keys from .env
 dotenv.config();
-const weatherBit_API_Key = process.env.weatherBit_API_Key
-const pixabay_API_Key = process.env.pixabay_API_Key
-const geonames_username = process.env.geonames_username
+const weatherBit_API_Key = process.env.weatherBit_API_Key;
+const pixabay_API_Key = process.env.pixabay_API_Key;
+const geonames_username = process.env.geonames_username;
 
 // API URLs
-const geonamesURL = 'http://api.geonames.org/searchJSON?q='
-const weatherForecastURL = 'http://api.weatherbit.io/v2.0/forecast/daily?&lat='
-const weatherCurrentURL = 'http://api.weatherbit.io/v2.0/current?&lat='
-const pixabayURL = 'https://pixabay.com/api/?key='
+const geonamesURL = 'http://api.geonames.org/searchJSON?q=';
+const weatherForecastURL = 'http://api.weatherbit.io/v2.0/forecast/daily?&lat=';
+const weatherCurrentURL = 'http://api.weatherbit.io/v2.0/current?&lat=';
+const pixabayURL = 'https://pixabay.com/api/?key=';
 
 app.get('/', function (req, res) {
-    res.sendFile(path.resolve('dist/index.html'))
-})
+    res.sendFile(path.resolve('dist/index.html'));
+});
 
 // designates what port the app will listen to for incoming requests
 app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
-})
+    console.log('Example app listening on port 8080!');
+});
 
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
@@ -86,7 +86,7 @@ const locationSearch = async searchLoc => {
         return apiData;
     } catch (error) {
         console.log('Error: ', error);
-    }
+    };
 };
 
 //Function to lookup an image of the searched for location
@@ -102,7 +102,7 @@ const pictureLookup = async searchLoc => {
             projectData.imgURL = apiData['hits'][0].webformatURL;
         } catch (error) {
             console.log('Error: ', error);
-        }
+        };
 };
 
 //Look up weather from weatherbits.io API using latitude and longitude
@@ -119,7 +119,7 @@ const weatherLookup = async (lat, lng, dateDiff) => {
             projectData.weatherIcon = apiData["data"][dateDiff]['weather'].icon;
         } catch (error) {
             console.log('Error: ', error);
-        }
+        };
 
     } else {
         //If the departure date is more than 16 days away, get the current weather.
@@ -131,8 +131,8 @@ const weatherLookup = async (lat, lng, dateDiff) => {
             projectData.weatherIcon = apiData["data"][0]['weather'].icon;
         } catch (error) {
             console.log('Error: ', error);
-        }
-    }
+        };
+    };
 };
 
 //Function to calculate # of days from current date, until departure.

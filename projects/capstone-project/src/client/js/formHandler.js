@@ -27,7 +27,7 @@ const loadSaved = async () => {
         return await res.json();
     } catch (error) {
         console.log('error', error);
-    }
+    };
     
 };
 
@@ -39,7 +39,7 @@ const initialData = () => {
 
 //update the page UI
 const updateUI = res => {
-
+    //Check for location data before updating UI
     if(res.location) {
     console.log(`updating UI with data for ${res.location}`);
     document.getElementById('results').innerText = `
@@ -51,7 +51,7 @@ const updateUI = res => {
     The weather will be: ${res.weather}`;
     document.getElementById('weatherIcon').src = `/icons/${res.weatherIcon}.png`;
     document.getElementById('locPic').src = res.imgURL;
-    } else {document.getElementById('results').innerText = 'No Saved Trip'}
+    } else {document.getElementById('results').innerText = 'No Saved Trip'};
 };
 
     // Build the post request function
@@ -69,9 +69,9 @@ const updateUI = res => {
                 return await res.json();
             } catch (error) {
                 console.log('error', error);
-            }
+            };
         };
 
 //Export function to include in index.js
-export { handleSubmit }
-export { initialData }
+export { handleSubmit };
+export { initialData };
