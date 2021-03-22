@@ -2,13 +2,45 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: arial;
+
 }
 
 main {
     flex: 2;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 30% 70%;
 }
 
-section {
-    max-width: 800px;
-    margin: 50px auto;
+
+/* section {
+} */
+
+.main__hero {
+    font-size: 60px;
+}
+
+.trip__container{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.form__Container{
+    z-index: 1;
+    grid-column: 2;
+    grid-row: 2;
+}
+.img__Container{
+    z-index: 0;
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.weather__icon {
+    z-index: 1;
+}
+
+.loc__image {
+    border-radius: 8px;
 }

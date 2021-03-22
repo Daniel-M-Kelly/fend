@@ -72,6 +72,24 @@ const updateUI = res => {
             };
         };
 
+const removeTrip = async () => {
+    const res =  await fetch('http://localhost:8080/removeTrip ', {
+        method: 'GET',
+        credentials: 'same-origin',
+        mode: 'cors',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    });
+    try {
+        location.reload()
+        return await res;
+    } catch (error) {
+        console.log('error', error);
+    };
+};
+
 //Export function to include in index.js
 export { handleSubmit };
 export { initialData };
+export { removeTrip };

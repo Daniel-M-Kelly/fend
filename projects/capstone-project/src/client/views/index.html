@@ -13,34 +13,29 @@
     <body onload="Client.initialData()">
 
         <header>
-            <div class="">
-                Logos
-            </div>
-            <div class="">
-                navigation
+            <div class="main__hero">
+                <h1>Travel Planning Log</h1>
             </div>
         </header>
-
         <main>
-            <section>
-                <form class="" onsubmit="return Client.handleSubmit(event)">
+            <section class="trip__container">
+                <img class="weather__icon" id="weatherIcon"></img>
+                <div id="results"></div>
+                </section>
+
+                <section class="img__container">
+                <img class="loc__image" id="locPic"></img>
+            </section>
+                
+            <section class="form__container">
+                <form onsubmit="return Client.handleSubmit(event)">
                     <input id="locationName" type="text" name="locationName" value="" placeholder="Destination">
                     <input id="departDate" type="date" name="departDate" value="" placeholder="Departure Date">
-                    <input type="submit" name="" value="Save Trip" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">
+                    <input class="form__button" type="submit" name="" value="Save Trip" onclick="return Client.handleSubmit(event)">
+                    <input class="form__button" type="reset" value="Remove Trip " onclick="return Client.removeTrip()" />
                 </form>
             </section>
-
-            <section>
-                <strong>Form Results:</strong>
-                <div id="results"></div>
-                <img id="weatherIcon"></img>
-                <img id="locPic"></img>
-            </section>
         </main>
-
-        <footer>
-            <p>This is a footer</p>
-        </footer>
 
         <script>
             // Check that service workers are supported

@@ -144,3 +144,10 @@ const dateCalc = depart => {
     projectData.dateDiff = dateDiff;
 };
 
+const removeTrip = (req, res) => {
+    projectData = {};
+    res.send('Trip Removed');
+};
+
+// Get Route - Add trip to data array
+app.get('/removeTrip', removeTrip);
