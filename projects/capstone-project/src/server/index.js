@@ -13,10 +13,18 @@ app.use(express.json());
 app.use(express.static('dist'));
 
 //Pull API Keys from .env
-dotenv.config();
+
+//Hardcode API keys for submission
+const weatherBit_API_Key = '8b9bf7ac427449e0bc127cd77f514c3e'
+const pixabay_API_Key = '20610146-5ced6012fa9474ae2cb41295b'
+const geonames_username = 'dkelly'
+
+/* dotenv.config();
 const weatherBit_API_Key = process.env.weatherBit_API_Key;
 const pixabay_API_Key = process.env.pixabay_API_Key;
 const geonames_username = process.env.geonames_username;
+*/
+
 
 // API URLs
 const geonamesURL = 'http://api.geonames.org/searchJSON?q=';
