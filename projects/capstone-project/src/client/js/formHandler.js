@@ -47,7 +47,7 @@ const updateUI = res => {
     Country: ${res.country}
     Departure Date: ${res.departDate}
     Days until Departure: ${res.dateDiff}
-    Temperature: ${res.temp}
+    Temperature: ${res.temp}C
     The weather will be: ${res.weather}`;
     document.getElementById('weatherIcon').src = `/icons/${res.weatherIcon}.png`;
     document.getElementById('locPic').src = res.imgURL;
