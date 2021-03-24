@@ -43,12 +43,10 @@ const updateUI = res => {
     if(res.location) {
     console.log(`updating UI with data for ${res.location}`);
     document.getElementById('results').innerText = `
-    Trip to: ${res.location}
-    Country: ${res.country}
-    Departure Date: ${res.departDate}
-    Days until Departure: ${res.dateDiff}
-    Temperature: ${res.temp}C
-    The weather will be: ${res.weather}`;
+    ${res.location} , ${res.country} is ${res.dateDiff} ${res.dateDiff > 1 ? 'days' : 'day'} away.
+    
+    ${res.dateDiff > 16 ? 'The current weather is:' : 'The forecasted weather for that day is: '} ${res.temp}C
+    ${res.weather}`;
     document.getElementById('weatherIcon').src = `/icons/${res.weatherIcon}.png`;
     document.getElementById('locPic').src = res.imgURL;
     } else {document.getElementById('results').innerText = 'No Saved Trip'};

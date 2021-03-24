@@ -27,3 +27,7 @@
 # API and JS Integration
 
 * Use dotenv package to hide API key from client, included the .env file in .gitignore so it wouldn't be posted on public github repo
+
+# Optional Extension
+
+* Implemented weather icons as optional extension.

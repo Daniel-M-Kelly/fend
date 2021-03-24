@@ -8,19 +8,23 @@
         <link href="/styles/header.css">
         <link href="/styles/form.css">
         <link href="/styles/footer.css">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     </head>
 
     <body onload="Client.initialData()">
 
         <header>
             <div class="main__hero">
-                <h1>Travel Planning Log</h1>
+                <h1>Travel Planner</h1>
             </div>
         </header>
         <main class="wrapper">
             <section class="trip__container">
-                <img class="weather__icon" id="weatherIcon"></img>
                 <div class="results" id="results"></div>
+                <img class="weather__icon" id="weatherIcon"></img>
                 </section>
                 <section class="img__container"> 
                 <img id="locPic"></img>
@@ -28,8 +32,10 @@
                 
             <section class="form__container">
                 <form onsubmit="return Client.handleSubmit(event)">
-                    <input id="locationName" type="text" name="locationName" value="" placeholder="Destination">
-                    <input id="departDate" type="date" name="departDate" value="" placeholder="Departure Date">
+                    <h2>My trip to: 
+                        <input id="locationName" type="text" name="locationName" value="" placeholder="Destination"></h2>
+                    <h2>Departing: 
+                        <input id="departDate" type="date" name="departDate" value="" placeholder="Departure Date"></h2>
                     <div>
                     <input class="form__button" type="submit" name="" value="Save Trip" onclick="return Client.handleSubmit(event)">
                     <input class="form__button" type="reset" value="Remove Trip " onclick="return Client.removeTrip()" />
