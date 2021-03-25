@@ -18,6 +18,8 @@
 
 ## Testing
 * Jest installed, run with command `npm run test` each js file is tested.
+* Used supertest library to test express server.
+* Needed @babel/plugin-transform-runtime npm module for async function testing
 ## Offline Capabilities
 
 * Implemented Service Workers in Prod environment only.

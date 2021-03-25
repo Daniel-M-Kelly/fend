@@ -37,12 +37,13 @@ app.get('/', function (req, res) {
 });
 
 // designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!');
+const server = app.listen(8080, function(){
+//app.listen(8080, function () {
+    //console.log('Example app listening on port 8080!');
 });
 
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+let projectData = {};
 
 
 //function sendData (req, res) {
@@ -100,7 +101,7 @@ const locationSearch = async searchLoc => {
 //Function to lookup an image of the searched for location
 const pictureLookup = async searchLoc => {
     //URI encode search location string 
-    encodedLoc = encodeURI(searchLoc);
+    const encodedLoc = encodeURI(searchLoc);
     
     //Pixabay API image search
     const api_res = await fetch(`${pixabayURL}${pixabay_API_Key}&q=${encodedLoc}&image_type=photo&safesearch=true`);
@@ -159,3 +160,6 @@ const removeTrip = (req, res) => {
 
 // Get Route - Add trip to data array
 app.get('/removeTrip', removeTrip);
+
+
+module.exports = server;
